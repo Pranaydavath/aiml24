@@ -3,16 +3,16 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from nltk import *
 data=fetch_20newsgroups() #fetching new group dota 
-text_categories=data.target_names 
+tc=data.target_names 
 #splitting the dato 
-train_data=fetch_20newsgroups(subset="train", categories=text_categories)
-test_data=fetch_20newsgroups (subset="test", categories=text_categories)
+train_data=fetch_20newsgroups(subset="train", categories=tc)
+test_data=fetch_20newsgroups (subset="test", categories=tc)
 model=make_pipeline (TfidfVectorizer(), MultinomialNB()) 
 model.fit(train_data.data, train_data. target)
-predicted_categories=model.predict(test_data.data)
-mat=confusion_matrix(test_data.target,predicted_categories)
+predc=model.predict(test_data.data)
+mat=confusion_matrix(test_data.target,predc)
 sns.heatmap(mat.T, square=True, annot=True, fmt="d",xticklabels=train_data.target_names,yticklabels=train_data.target_names)
 plt.xlabel("true labels")
 plt.ylabel("predicted label")
 plt.show() 
-print("The accuracy is {}".format(accuracy_score(test_data.target,predicted_categories)))
+print("The accuracy is {}".format(accuracy_score(test_data.target,predc)))
