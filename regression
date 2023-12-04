@@ -1,38 +1,25 @@
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-
-data = pd.read_csv("salary_data.csv")
-data.head()
-data.isnull().sum()
-
-X = data.iloc[:, :-1].values  # Use all columns except the last one
-y = data.iloc[:, -1].values
-
-X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-
-regressor = LinearRegression()
-regressor.fit(X_train, Y_train)
-
-print("Accuracy", regressor.score(X_test, Y_test))
-
-# Intercept and Coefficient
-print("Intercept: ", regressor.intercept_)
-print("Coefficient: ", regressor.coef_)
-
-# Prediction of the test set
-y_pred_slr = regressor.predict(X_test)
-
-# Predicted values
-print("Prediction for the test set: {}".format(y_pred_slr))
-
-# Actual value and the predicted value
-regressor_diff = pd.DataFrame({'Actual value': Y_test, 'Predicted value': y_pred_slr})
-print(regressor_diff.head())
-
-# Line of best fit
-plt.scatter(X_test, Y_test)
-plt.plot(X_test, y_pred_slr, 'r')
-plt.show()
+import numpy as nm  
+import matplotlib.pyplot as mtp  
+import pandas as pd  
+data_set= pd.read_csv('salary_data.csv')  
+x= data_set.iloc[:, :-1].values  
+y= data_set.iloc[:, 1].values
+from sklearn.model_selection import train_test_split  
+x_train, x_test, y_train, y_test= train_test_split(x, y, test_size= 1/3, random_state=0)
+from sklearn.linear_model import LinearRegression  
+regressor= LinearRegression()  
+regressor.fit(x_train, y_train)                                                 
+y_pred= regressor.predict(x_test)  
+x_pred= regressor.predict(x_train)
+mtp.scatter(x_train, y_train, color="green")   
+mtp.plot(x_train, x_pred, color="red")    
+mtp.title("Salary vs Experience (Training Dataset)")  
+mtp.xlabel("Years of Experience")  
+mtp.ylabel("Salary(In Rupees)")  
+mtp.show()   
+mtp.scatter(x_test, y_test, color="blue")   
+mtp.plot(x_train, x_pred, color="red")    
+mtp.title("Salary vs Experience (Test Dataset)")  
+mtp.xlabel("Years of Experience")  
+mtp.ylabel("Salary(In Rupees)")  
+mtp.show()  
